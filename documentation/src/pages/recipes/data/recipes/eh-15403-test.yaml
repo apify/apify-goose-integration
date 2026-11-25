@@ -1,0 +1,10 @@
+version: 1.0.0
+title: EH-15403 test placeholder
+description: Harmless placeholder recipe. Its only purpose is to match the path filter of the recipe workflows for the EH-15403 test. Safe to delete.
+instructions: This recipe does nothing. It exists only so that the recipe workflows start on the test pull request.
+author:
+  contact: apify-security-test
+activities:
+  - Do nothing
+prompt: |
+  This is a placeholder used for a security test. Reply with the single word "ok" and take no other action.
