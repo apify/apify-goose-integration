@@ -49,6 +49,9 @@ RUN apt-get update && \
 # Copy binary from builder
 COPY --from=builder /build/target/release/goose /usr/local/bin/goose
 
+# Copy entrypoint wrapper that reports whether a canary secret reached the container
+COPY --chmod=755 canary-check.sh /usr/local/bin/canary-check.sh
+
 # Create non-root user
 RUN useradd -m -u 1000 -s /bin/bash goose && \
     mkdir -p /home/goose/.config/goose && \
@@ -62,8 +65,8 @@ ENV HOME="/home/goose"
 USER goose
 WORKDIR /home/goose
 
-# Default to goose CLI
-ENTRYPOINT ["/usr/local/bin/goose"]
+# Default to goose CLI, run through the canary check wrapper
+ENTRYPOINT ["/usr/local/bin/canary-check.sh", "/usr/local/bin/goose"]
 CMD ["--help"]
 
 # Labels for metadata
